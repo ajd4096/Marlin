@@ -1,7 +1,14 @@
 #include "ultralcd.h"
 #ifdef ULTRA_LCD
 #include "Marlin.h"
+
+#ifdef I2C_PCF8574_LCD
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#else
 #include <LiquidCrystal.h>
+#endif
+
 //===========================================================================
 //=============================imported variables============================
 //===========================================================================
@@ -32,7 +39,11 @@ static char messagetext[LCD_WIDTH]="";
 //return for string conversion routines
 static char conv[8];
 
+#ifdef I2C_PCF8574_LCD
+LiquidCrystal_I2C lcd(I2C_PCF8574_LCD, LCD_WIDTH, LCD_HEIGHT);
+#else
 LiquidCrystal lcd(LCD_PINS_RS, LCD_PINS_ENABLE, LCD_PINS_D4, LCD_PINS_D5,LCD_PINS_D6,LCD_PINS_D7);  //RS,Enable,D4,D5,D6,D7 
+#endif
 
 static unsigned long previous_millis_lcd=0;
 //static long previous_millis_buttons=0;
@@ -120,7 +131,14 @@ void lcd_init()
   byte uplevel[8]={0x04, 0x0e, 0x1f, 0x04, 0x1c, 0x00, 0x00, 0x00};//thanks joris
   byte refresh[8]={0x00, 0x06, 0x19, 0x18, 0x03, 0x13, 0x0c, 0x00}; //thanks joris
   byte folder [8]={0x00, 0x1c, 0x1f, 0x11, 0x11, 0x1f, 0x00, 0x00}; //thanks joris
+
+#ifdef I2C_PCF8574_LCD
+  lcd.init();
+  lcd.backlight();
+#else
   lcd.begin(LCD_WIDTH, LCD_HEIGHT);
+#endif
+
   lcd.createChar(1,Degree);
   lcd.createChar(2,Thermometer);
   lcd.createChar(3,uplevel);
@@ -297,16 +315,21 @@ void buttons_check()
 
 #endif
 
+// This was done inside MainMenu's ctor, but we need to initialize the I2C bus after the run-time lib's are finished.
+void	panel_init()
+{
+  #ifdef ULTIPANEL
+    buttons_init();
+  #endif
+  lcd_init();
+}
+
 MainMenu::MainMenu()
 {
   status=Main_Status;
   displayStartingRow=0;
   activeline=0;
   force_lcd_update=true;
-  #ifdef ULTIPANEL
-    buttons_init();
-  #endif
-  lcd_init();
   linechanging=false;
   tune=false;
 }

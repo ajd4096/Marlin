@@ -941,6 +941,7 @@
 #ifdef NEWPANEL
   #define BEEPER          -1
 
+  #ifndef I2C_PCF8574_LCD
   // LCD connected directly to EXP2
   #define LCD_PINS_RS 8		/* PE0 EXP2 pin 10 */ 
   #define LCD_PINS_ENABLE 9	/* PE1 EXP2 pin 11 - conflicts with SCK if SDSUPPORT is not defined */
@@ -948,6 +949,7 @@
   #define LCD_PINS_D5 5		/* PD5 EXP2 pin 6 */
   #define LCD_PINS_D6 6		/* PD6 EXP2 pin 7 */
   #define LCD_PINS_D7 7		/* PD7 EXP2 pin 8 */
+  #endif
 
   // rotary encoder connected directly to EXP2
   #define BTN_EN1 11		/* PC1 EXP2 pin 13 - conflicts with MOSI if SDSUPPORT is not defined */

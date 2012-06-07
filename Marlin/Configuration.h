@@ -197,6 +197,7 @@ const bool Z_ENDSTOPS_INVERTING = false; // set to true to invert the logic of t
 #define ULTIPANEL
 #ifdef ULTIPANEL
   #define NEWPANEL  //enable this if you have a click-encoder panel
+  #define I2C_PCF8574_LCD	0x20		// enable this to connect LCD via PCF8574 at this address
   #define SDSUPPORT
   #define ULTRA_LCD
   #define LCD_WIDTH 20
