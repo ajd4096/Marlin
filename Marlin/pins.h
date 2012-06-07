@@ -927,10 +927,46 @@
 
 #ifndef SDSUPPORT
 // these pins are defined in the SD library if building with SD support
-  #define SCK_PIN          9
-  #define MISO_PIN         11
-  #define MOSI_PIN         10
+// If SDSUPPORT is not defined, the pins are mapped to the external connector
+// These may conflict if ULTRA_LCD is defined as below
+  #define SCK_PIN          9	/* PB1 EXP2 pin 11 */
+  #define MISO_PIN         11	/* PC1 EXP2 pin 13 */
+  #define MOSI_PIN         10	/* PC0 EXP2 pin 14 */
 #endif
+
+// Definitions for a "new panel" connected directly to connector.
+// This is labelled "JP11" on the schematic, and "EXP2" on the board layout.
+// The boardlayout labels the pins incorrectly, but has pin 1 in the correct place.
+// The silk screen says 1,2,3... but should be 1,3,5...
+#ifdef NEWPANEL
+  #define BEEPER          -1
+
+  // LCD connected directly to EXP2
+  #define LCD_PINS_RS 8		/* PE0 EXP2 pin 10 */ 
+  #define LCD_PINS_ENABLE 9	/* PE1 EXP2 pin 11 - conflicts with SCK if SDSUPPORT is not defined */
+  #define LCD_PINS_D4 4		/* PD4 EXP2 pin 5 */
+  #define LCD_PINS_D5 5		/* PD5 EXP2 pin 6 */
+  #define LCD_PINS_D6 6		/* PD6 EXP2 pin 7 */
+  #define LCD_PINS_D7 7		/* PD7 EXP2 pin 8 */
+
+  // rotary encoder connected directly to EXP2
+  #define BTN_EN1 11		/* PC1 EXP2 pin 13 - conflicts with MOSI if SDSUPPORT is not defined */
+  #define BTN_EN2 12		/* PC2 EXP2 pin 14 */
+  #define BTN_ENC 10		/* PC0 EXP2 pin 12 - conflicts with MOSI if SDSUPPORT is not defined */
+  
+  #define BLEN_C 2
+  #define BLEN_B 1
+  #define BLEN_A 0
+    
+  #define SDCARDDETECT -1
+    
+  //encoder rotation values
+  #define encrot0 0
+  #define encrot1 2
+  #define encrot2 3
+  #define encrot3 1
+#endif
+
 #endif
 
 /****************************************************************************************
