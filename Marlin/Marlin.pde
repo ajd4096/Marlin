@@ -271,6 +271,10 @@ void setup()
   SERIAL_PROTOCOLLNPGM("start");
   SERIAL_ECHO_START;
 
+  #ifdef ULTRA_LCD
+    panel_init();
+  #endif
+
   // Check startup - does nothing if bootloader sets MCUSR to 0
   byte mcu = MCUSR;
   if(mcu & 1) SERIAL_ECHOLNPGM(MSG_POWERUP);

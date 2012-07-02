@@ -2,7 +2,14 @@
 #define ULTRALCD_H
 #include "Marlin.h"
 #ifdef ULTRA_LCD
+
+#ifdef I2C_PCF8574_LCD
+  #include <LiquidCrystal_I2C.h>
+#else
   #include <LiquidCrystal.h>
+#endif
+  
+  void	panel_init();
   void lcd_status();
   void lcd_init();
   void lcd_status(const char* message);
@@ -12,7 +19,13 @@
 
   #define LCD_UPDATE_INTERVAL 100
   #define STATUSTIMEOUT 15000
+  
+#ifdef I2C_PCF8574_LCD
+  extern LiquidCrystal_I2C lcd;
+#else
   extern LiquidCrystal lcd;
+#endif
+
   extern volatile char buttons;  //the last checked buttons in a bit array.
   
   #ifdef NEWPANEL
