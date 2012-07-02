@@ -215,7 +215,9 @@ void buttons_init()
     pinMode(BTN_EN1,INPUT);
     pinMode(BTN_EN2,INPUT); 
     pinMode(BTN_ENC,INPUT); 
+    #if (SDCARDDETECT > -1)
     pinMode(SDCARDDETECT,INPUT);
+    #endif
     WRITE(BTN_EN1,HIGH);
     WRITE(BTN_EN2,HIGH);
     WRITE(BTN_ENC,HIGH);
